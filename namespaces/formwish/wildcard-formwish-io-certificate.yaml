@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-formwish-io
+  namespace: formwish
+spec:
+  secretName: wildcard-formwish-io-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: "*.formwish.io"
+  dnsNames:
+  - "*.formwish.io"

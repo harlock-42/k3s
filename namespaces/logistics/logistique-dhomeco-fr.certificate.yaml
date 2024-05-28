@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: logistique-dhomeco-fr-tls
+  namespace: logistics
+spec:
+  secretName: logistique-dhomeco-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: logistique.dhomeco.fr
+  dnsNames:
+  - logistique.dhomeco.fr

@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: formwish
+spec:
+  acme:
+    email: tom@klack.io
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-cloudflare-private-key
+    solvers:
+    - dns01:
+        cloudflare:
+          email: tom@klack.io
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token

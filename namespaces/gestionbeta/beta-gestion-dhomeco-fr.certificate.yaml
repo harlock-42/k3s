@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: beta-gestion-dhomeco-fr-tls
+  namespace: gestionbeta
+spec:
+  secretName: beta-gestion-dhomeco-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: beta.gestion.dhomeco.fr
+  dnsNames:
+  - beta.gestion.dhomeco.fr

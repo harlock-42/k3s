@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pmcomptabeta-configmap
+  namespace: pmcomptabeta
+data:
+  FUNCTIONAL_API_IMAGE_FOLDER_PATH: uploads
+  SERVER_PORT: "5001"
+  POSTGRES_HOST: postgres-0.postgres.default.svc.cluster.local
+  POSTGRES_DATABASE: betacompta
+  POSTGRES_PORT: "5432"

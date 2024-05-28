@@ -1,0 +1,144 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestjs
+  namespace: formwish
+spec:
+  selector:
+    matchLabels:
+      app: nestjs
+  template:
+    metadata:
+      labels:
+        app: nestjs
+    spec:
+      containers:
+      - name: nestjs
+        image: tktorza/formwish-nestjs:5
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 30000
+        env:
+          - name: NODE_ENV
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: NODE_ENV
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: PORT
+          - name: BACKEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: BACKEND_URL
+          - name: FRONTEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: FRONTEND_URL
+          - name: FRONTEND_ADMIN_URL
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: FRONTEND_ADMIN_URL
+          - name: MAIL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_HOST
+          - name: MAIL_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_PORT
+          - name: MAIL_SECURE
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_SECURE
+          - name: MAIL_USER
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_USER
+          - name: MAIL_FROM
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_FROM
+          - name: MAIL_TLS_REJECT_UNAUTHORIZED
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: MAIL_TLS_REJECT_UNAUTHORIZED
+          - name: VITE_WEBSITE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: VITE_WEBSITE_URL
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: POSTGRES_HOST
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: POSTGRES_DB
+          - name: POSTGRES_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: formwish
+                key: POSTGRES_PORT
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: DATABASE_URL
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: JWT_SECRET
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: POSTGRES_PASSWORD
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: POSTGRES_USER
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: DATABASE_URL
+          - name: MAIL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: formwish-secret
+                key: MAIL_PASS
+      imagePullSecrets:
+      - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nestjs
+  namespace: formwish
+spec:
+  selector:
+    app: nestjs
+  ports:
+  - port: 3001
+    targetPort: 30000

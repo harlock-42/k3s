@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: beta-compta-test-prime-evolution-fr-tls
+  namespace: pmcomptabeta
+spec:
+  secretName: beta-compta-test-prime-evolution-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: beta.compta-test.prime-evolution.fr
+  dnsNames:
+  - beta.compta-test.prime-evolution.fr
