@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logistics-ingress
+  namespace: deviancebeta
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "beta.chat.deviance.harlock.fr"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - "beta.chat.deviance.harlock.fr"
+    secretName: beta-chat-deviance-harlock-fr-tls
+  rules:
+  - host: "beta.chat.deviance.harlock.fr"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chat
+            port:
+              number: 3001

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-trans-harlock-fr-tls
+  namespace: trans
+spec:
+  secretName: api-trans-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: api.trans.harlock.fr
+  dnsNames:
+  - api.trans.harlock.fr

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: ping
+spec:
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: harlock42/ping-api:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /app/data
+          name: storage
+      imagePullSecrets:
+      - name: docker-hub-secret
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: ping
+spec:
+  selector:
+    app: api
+  ports:
+  - port: 3000
+    targetPort: 8000

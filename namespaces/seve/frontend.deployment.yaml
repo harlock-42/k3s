@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: seve
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: harlock42/seve-frontend:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: seve
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 3000
+    targetPort: 3000

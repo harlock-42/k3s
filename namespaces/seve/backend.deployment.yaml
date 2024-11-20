@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: seve
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: harlock42/seve-backend:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /data/pictures
+          name: pictures
+      imagePullSecrets:
+      - name: docker-hub-secret
+      volumes:
+      - name: pictures
+        persistentVolumeClaim:
+          claimName: pictures
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: seve
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 3000
+    targetPort: 3000

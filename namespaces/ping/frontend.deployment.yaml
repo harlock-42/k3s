@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+  namespace: ping
+spec:
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: front
+        image: harlock42/ping-front:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  namespace: ping
+spec:
+  selector:
+    app: front
+  ports:
+  - port: 3001
+    targetPort: 3000

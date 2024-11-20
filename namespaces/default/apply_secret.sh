@@ -34,13 +34,7 @@ apply_secret() {
 			kubectl create secret generic $NAMESPACE-secret \
 				--namespace=$NAMESPACE \
 				--from-literal=POSTGRES_USER=$DEFAULT_POSTGRES_USER \
-				--from-literal=POSTGRES_PASSWORD=$DEFAULT_POSTGRES_PASSWORD \
-				--from-literal=USERNAME=$DEFAULT_USERNAME \
-				--from-literal=USERNAME_COMPTA=$DEFAULT_USERNAME_COMPTA \
-				--from-literal=PASSWORD=$DEFAULT_PASSWORD \
-				--from-literal=SAFETY_CULTURE_TOKEN=$DEFAULT_SAFETY_CULTURE_TOKEN \
-				--from-literal=PASSPHRASE_REFRESH=$DEFAULT_PASSPHRASE_REFRESH \
-				--from-literal=PASSPHRASE_KEY=$DEFAULT_PASSPHRASE_KEY
+				--from-literal=POSTGRES_PASSWORD=$DEFAULT_POSTGRES_PASSWORD
 		else
 			echo "secret/$NAMESPACE-secret unchanged"
 		fi

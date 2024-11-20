@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: deviance
+spec:
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: harlock42/deviance-auth:1
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  namespace: deviance
+spec:
+  selector:
+    app: auth
+  ports:
+  - port: 3002
+    targetPort: 8080

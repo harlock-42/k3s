@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat
+  namespace: deviancebeta
+
+spec:
+  selector:
+    matchLabels:
+      app: chat
+  template:
+    metadata:
+      labels:
+        app: chat
+    spec:
+      containers:
+      - name: chat
+        image: harlock42/deviancebeta-chat:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat
+  namespace: deviancebeta
+spec:
+  selector:
+    app: chat
+  ports:
+  - port: 3001
+    targetPort: 3000

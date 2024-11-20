@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pictures-seve
+spec:
+  capacity:
+    storage: 8Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: pictures-seve
+  hostPath:
+    path: "/mnt/data"

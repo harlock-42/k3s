@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: beta-hat-deviance-harlock-fr-tls
+  namespace: deviancebeta
+spec:
+  secretName: beta-chat-deviance-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: beta.chat.deviance.harlock.fr
+  dnsNames:
+  - beta.chat.deviance.harlock.fr

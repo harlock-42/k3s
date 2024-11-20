@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seve-harlock-fr-tls
+  namespace: seve
+spec:
+  secretName: seve-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: seve.harlock.fr
+  dnsNames:
+  - seve.harlock.fr

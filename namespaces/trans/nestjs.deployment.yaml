@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestjs
+  namespace: trans
+spec:
+  selector:
+    matchLabels:
+      app: nestjs
+  template:
+    metadata:
+      labels:
+        app: nestjs
+    spec:
+      containers:
+      - name: nestjs
+        image: harlock42/trans-nestjs:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000
+        - containerPort: 8080
+        - containerPort: 8100
+        volumeMounts:
+        - mountPath: /var/app/uploads/socialFiles
+          name: social
+      imagePullSecrets:
+      - name: docker-hub-secret
+      volumes:
+      - name: social
+        persistentVolumeClaim:
+          claimName: social
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nestjs
+  namespace: trans
+spec:
+  selector:
+    app: nestjs
+  ports:
+  - port: 3000
+    targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game
+  namespace: trans
+spec:
+  selector:
+    app: nestjs
+  ports:
+  - port: 3002
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat
+  namespace: trans
+spec:
+  selector:
+    app: nestjs
+  ports:
+  - port: 3003
+    targetPort: 8100

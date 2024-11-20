@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: harlock-ingress
+  namespace: trans
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "trans.harlock.fr | chat.api.trans.harlock.fr | api.trans.harlock.fr | ws.api.trans.harlock.fr"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - "trans.harlock.fr"
+    secretName: trans-harlock-fr-tls
+  - hosts:
+    - "api.trans.harlock.fr"
+    secretName: api-trans-harlock-fr-tls
+  - hosts:
+    - "game.api.trans.harlock.fr"
+    secretName: game-api-trans-harlock-fr-tls
+  - hosts:
+    - "chat.api.trans.harlock.fr"
+    secretName: chat-api-trans-harlock-fr-tls
+  rules:
+  - host: "trans.harlock.fr"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front
+            port:
+              number: 3001
+  - host: "api.trans.harlock.fr"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nestjs
+            port:
+              number: 3000
+  - host: "game.api.trans.harlock.fr"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: game
+            port:
+              number: 3002
+  - host: "chat.api.trans.harlock.fr"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chat
+            port:
+              number: 3003

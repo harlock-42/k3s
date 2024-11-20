@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: media-harlock-fr-tls
+  namespace: media
+spec:
+  secretName: media-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: media.harlock.fr
+  dnsNames:
+  - media.harlock.fr

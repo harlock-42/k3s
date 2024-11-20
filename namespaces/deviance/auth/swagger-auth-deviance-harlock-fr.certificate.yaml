@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: swagger-auth-deviance-harlock-fr-tls
+  namespace: deviance
+spec:
+  secretName: swagger-auth-deviance-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: swagger.auth.deviance.harlock.fr
+  dnsNames:
+    - swagger.auth.deviance.harlock.fr

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: auth-deviance-harlock-fr-tls
+  namespace: deviance
+spec:
+  secretName: auth-deviance-harlock-fr-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+  commonName: auth.deviance.harlock.fr
+  dnsNames:
+    - auth.deviance.harlock.fr
